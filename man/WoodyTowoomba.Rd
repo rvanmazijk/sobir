@@ -4,7 +4,9 @@
 \name{WoodyTowoomba}
 \alias{WoodyTowoomba}
 \title{Woody cover in Towoomba}
-\format{A data frame with 60 rows and 18 variables}
+\format{
+A data frame with 60 rows and 18 variables
+}
 \source{
 \url{https://doi.org/10.1371/journal.pone.0179848}
 }

@@ -4,7 +4,9 @@
 \name{WoodyAfrica}
 \alias{WoodyAfrica}
 \title{Woody cover in Africa}
-\format{A data frame with 854 rows and 2 variables}
+\format{
+A data frame with 854 rows and 2 variables
+}
 \source{
 \url{https://doi.org/10.1038/nature04070}
 }
