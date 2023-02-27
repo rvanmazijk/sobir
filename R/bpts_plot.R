@@ -23,11 +23,11 @@
 #' b = rnorm(100,0,1)
 #' bptsExample = extract_bpts(a,b)
 #' bpts_plot(bptsExample, "a", "b")
-bpts_plot = function(bpts, xlab = "x", ylab = "y", export_name = "bpts plot.png", save_plot = FALSE, colour = TRUE, legend.position = "right"){
+bpts_plot <- function(bpts, xlab = "x", ylab = "y", export_name = "bpts plot.png", save_plot = FALSE, colour = TRUE, legend.position = "right"){
 
   legend <- x <- y <- type <- NULL
   
- bpts_baseplot = ggplot(data = filter(bpts, !legend %in% c(0, 6)), aes(x, y)) +
+ bpts_baseplot <- ggplot(data = filter(bpts, !legend %in% c(0, 6)), aes(x, y)) +
     
     geom_point(shape = 21, fill = "grey", alpha = 0.5) +
     
