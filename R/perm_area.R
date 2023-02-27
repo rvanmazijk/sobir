@@ -25,7 +25,7 @@
 #  relative area (x-axis) Ruan & Nic changes between lines 110 - 123 
 #  Added argument "fixed" <- lines 73 - 83
 
-NR_perm_area = function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixed = FALSE){
+perm_area = function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixed = FALSE){
   
   obs = cbind.data.frame(xdat, ydat)
   

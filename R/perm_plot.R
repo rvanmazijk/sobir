@@ -20,7 +20,7 @@
 #' perm_plot(permExample, 100)
 #' 
 # Ruan & Nic edits <- line 47 - 53 <- round changed to signif
-NR_perm_plot = function(perm, histogram = TRUE) {
+perm_plot = function(perm, histogram = TRUE) {
   
   bounds <- NULL
   
