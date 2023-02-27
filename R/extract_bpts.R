@@ -262,5 +262,5 @@ extract_bpts <- function(xdat, ydat) {
   output <- as.data.frame(collated)
 
   # Return output
-  return(output)
+  output
 }

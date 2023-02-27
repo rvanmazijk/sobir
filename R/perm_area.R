@@ -238,5 +238,5 @@ perm_area <- function(xdat, ydat, nsim,
     )
   }
   
-  return(list_result)
+  list_result
 }

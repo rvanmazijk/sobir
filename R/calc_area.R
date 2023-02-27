@@ -161,5 +161,5 @@ calc_area <- function(xdat, ydat){
     topr = area_topr
   )
   
-  return(output)
+  output
 }
