@@ -1,4 +1,3 @@
-
 ############## 9. Calculate the significance of and plot the permuted ploygons ##############
 ## Calculate the significance of the observed area
 
@@ -19,14 +18,16 @@
 #' b = rnorm(100,0,1)
 #' permExample = perm_area(a,b,10)
 #' perm_plot(permExample, 100)
-perm_plot = function(perm, histogram = TRUE) {
-
+#' 
+# Ruan & Nic edits <- line 47 - 53 <- round changed to signif
+NR_perm_plot = function(perm, histogram = TRUE) {
+  
   bounds <- NULL
   
   dat_perm = perm$data
   nsim = perm$nsim
   n = perm$n
-  
+  # browser()
   if(names(perm[3]) == "p") {
     
     bound = unique(perm$data$polygon)
@@ -45,10 +46,10 @@ perm_plot = function(perm, histogram = TRUE) {
   } else {
     
     # Function to rename the facet headings
-    poly_names = list('topl' = paste0("Top-left: p = ", round(perm$p_topl, 4)),
-                      'topr' = paste0("Top-right: p = ", round(perm$p_topr, 4)),
-                      'botl' = paste0("Bottom-left: p = ", round(perm$p_botl, 4)),
-                      'botr' = paste0("Bottom-right: p = ", round(perm$p_botr, 4)))
+    poly_names = list('topl' = paste0("Top-left: p = ", signif(perm$p_topl, 4)),
+                      'topr' = paste0("Top-right: p = ", signif(perm$p_topr, 4)),
+                      'botl' = paste0("Bottom-left: p = ", signif(perm$p_botl, 4)),
+                      'botr' = paste0("Bottom-right: p = ", signif(perm$p_botr, 4)))
     
     dat_perm$polygon = factor(dat_perm$polygon,
                               levels = c("topl", "topr", "botl", "botr"),
@@ -60,7 +61,7 @@ perm_plot = function(perm, histogram = TRUE) {
   poly_labeller <- function(variable,value){
     return(poly_names[value])
   }
-
+  
   if(histogram == F) {
     suppressWarnings(ggplot(data = dat_perm[dat_perm$source == "sim",], aes(x = rescale)) +
                        # geom_histogram(bins = 10, fill = "white", col = "darkgrey") +
@@ -72,7 +73,7 @@ perm_plot = function(perm, histogram = TRUE) {
                        theme_bw()
     )
   } else {
-
+    
     suppressWarnings(ggplot(data = dat_perm[dat_perm$source == "sim",], aes(x = rescale)) +
                        geom_histogram(bins = 10, fill = "white", col = "darkgrey") +
                        geom_vline(aes(xintercept = rescale), data = OD, col = "black", linetype = 2) +
