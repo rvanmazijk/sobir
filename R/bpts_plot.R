@@ -1,6 +1,4 @@
-
-############## 2. Plot the graphs with boundary polygons ##############
-
+# 2. Plot the graphs with boundary polygons
 
 #' Boundary Points Plot
 #'
@@ -25,7 +23,6 @@
 #' b = rnorm(100,0,1)
 #' bptsExample = extract_bpts(a,b)
 #' bpts_plot(bptsExample, "a", "b")
-
 bpts_plot = function(bpts, xlab = "x", ylab = "y", export_name = "bpts plot.png", save_plot = FALSE, colour = TRUE, legend.position = "right"){
 
   legend <- x <- y <- type <- NULL

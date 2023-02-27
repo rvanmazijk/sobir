@@ -1,6 +1,4 @@
-
-############## 4. Calculate areas ##############
-
+# 4. Calculate areas
 # Calculate areas of the BLA polygons defined by extract_bpts()
 
 #' Caculate the no-data zone areas

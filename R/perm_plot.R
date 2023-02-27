@@ -1,5 +1,5 @@
-############## 9. Calculate the significance of and plot the permuted ploygons ##############
-## Calculate the significance of the observed area
+# 9. Calculate the significance of and plot the permuted ploygons
+# Calculate the significance of the observed area
 
 #' Perm Plot
 #'

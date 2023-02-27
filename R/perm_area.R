@@ -1,6 +1,4 @@
-############## 8. Calculate permuted polygon areas ##############
-
-
+# 8. Calculate permuted polygon areas
 
 #' Calculate the permuted area
 #'
@@ -24,7 +22,6 @@
 #  Ver. 2 - Ruan & Nic edits
 #  relative area (x-axis) Ruan & Nic changes between lines 110 - 123 
 #  Added argument "fixed" <- lines 73 - 83
-
 perm_area = function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixed = FALSE){
   
   obs = cbind.data.frame(xdat, ydat)

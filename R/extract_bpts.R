@@ -1,5 +1,4 @@
-
-############## 1. Extract and label the boundary points ##############
+# 1. Extract and label the boundary points
 
 #' Extract boundary points
 #'
