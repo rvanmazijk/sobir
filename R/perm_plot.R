@@ -21,66 +21,90 @@
 #' 
 # Ruan & Nic edits <- line 47 - 53 <- round changed to signif
 perm_plot <- function(perm, histogram = TRUE) {
-  
   bounds <- NULL
   
   dat_perm <- perm$data
   nsim <- perm$nsim
   n <- perm$n
   # browser()
-  if(names(perm[3]) == "p") {
-    
+  if (names(perm[3]) == "p") {
     bound <- unique(perm$data$polygon)
     
-    name_option <- data.frame(name = c("Top-left", "Top-right", "Bottom-left", "Bottom-right"),
-                             bounds = c("topl", "topr", "botl", "botr"))
-    name_option <- dplyr::filter(name_option, bounds == bound)
+    name_option <- data.frame(
+      name   = c("Top-left", "Top-right", "Bottom-left", "Bottom-right"),
+      bounds = c("topl",     "topr",      "botl",        "botr")
+    )
+    name_option <- dplyr::filter(name_option,
+      bounds == bound
+    )
     
-    poly_names <- list('bound' = paste0(name_option$name, ": p = ", round(perm$p, 4)))
+    poly_names <- list('bound' = paste0(
+      name_option$name,
+      ": p = ",
+      round(perm$p, 4)
+    ))
     
     dat_perm$polygon <- factor(dat_perm$polygon,
-                              levels = bound,
-                              labels = name_option$name)
-    OD <- dat_perm[dat_perm$source == "obs",]
-    
+      levels = bound,
+      labels = name_option$name
+    )
+    OD <- dat_perm[dat_perm$source == "obs", ]
   } else {
-    
     # Function to rename the facet headings
-    poly_names <- list('topl' = paste0("Top-left: p = ", signif(perm$p_topl, 4)),
-                      'topr' = paste0("Top-right: p = ", signif(perm$p_topr, 4)),
-                      'botl' = paste0("Bottom-left: p = ", signif(perm$p_botl, 4)),
-                      'botr' = paste0("Bottom-right: p = ", signif(perm$p_botr, 4)))
+    poly_names <- list(
+      'topl' = paste0("Top-left: p = ",     signif(perm$p_topl, 4)),
+      'topr' = paste0("Top-right: p = ",    signif(perm$p_topr, 4)),
+      'botl' = paste0("Bottom-left: p = ",  signif(perm$p_botl, 4)),
+      'botr' = paste0("Bottom-right: p = ", signif(perm$p_botr, 4))
+    )
     
     dat_perm$polygon <- factor(dat_perm$polygon,
-                              levels = c("topl", "topr", "botl", "botr"),
-                              labels = c("Top-left", "Top-right", "Bottom-left", "Bottom-right"))
-    OD <- dat_perm[dat_perm$source == "obs",]
-    
+      levels = c("topl",     "topr",      "botl",        "botr"),
+      labels = c("Top-left", "Top-right", "Bottom-left", "Bottom-right")
+    )
+    OD <- dat_perm[dat_perm$source == "obs", ]
   }
   
-  poly_labeller <- function(variable,value){
+  poly_labeller <- function(variable,value) {
     return(poly_names[value])
   }
   
-  if(histogram == F) {
-    suppressWarnings(ggplot(data = dat_perm[dat_perm$source == "sim",], aes(x = rescale)) +
-                       # geom_histogram(bins = 10, fill = "white", col = "darkgrey") +
-                       geom_density(fill = "grey") +
-                       geom_vline(aes(xintercept = rescale), data = OD, col = "black", linetype = 2) +
-                       facet_wrap( ~ polygon, scales = "free", labeller = poly_labeller) +
-                       labs(x = "Relative area", y = "Density",
-                            title = paste0("Sample size: ", n, "\nRandom permutations: ",nsim)) +
-                       theme_bw()
+  if (!histogram) {
+    suppressWarnings(
+      ggplot(data = dat_perm[dat_perm$source == "sim", ], aes(x = rescale)) +
+        # geom_histogram(bins = 10, fill = "white", col = "darkgrey") +
+        geom_density(fill = "grey") +
+        geom_vline(
+          aes(xintercept = rescale),
+          data = OD,
+          col = "black",
+          linetype = 2
+        ) +
+        facet_wrap(~ polygon, scales = "free", labeller = poly_labeller) +
+        labs(
+          x = "Relative area",
+          y = "Density",
+          title = paste0("Sample size: ", n, "\nRandom permutations: ", nsim)
+        ) +
+        theme_bw()
     )
   } else {
-    
-    suppressWarnings(ggplot(data = dat_perm[dat_perm$source == "sim",], aes(x = rescale)) +
-                       geom_histogram(bins = 10, fill = "white", col = "darkgrey") +
-                       geom_vline(aes(xintercept = rescale), data = OD, col = "black", linetype = 2) +
-                       facet_wrap( ~ polygon, scales = "free", labeller = poly_labeller) +
-                       labs(x = "Relative area", y = "Frequency",
-                            title = paste0("Sample size: ", n, "\nRandom permutations: ",nsim)) +
-                       theme_bw()
+    suppressWarnings(
+      ggplot(data = dat_perm[dat_perm$source == "sim", ], aes(x = rescale)) +
+        geom_histogram(bins = 10, fill = "white", col = "darkgrey") +
+        geom_vline(
+          aes(xintercept = rescale),
+          data = OD,
+          col = "black",
+          linetype = 2
+        ) +
+        facet_wrap(~ polygon, scales = "free", labeller = poly_labeller) +
+        labs(
+          x = "Relative area",
+          y = "Frequency",
+          title = paste0("Sample size: ", n, "\nRandom permutations: ", nsim)
+        ) +
+        theme_bw()
     )
   }
 }

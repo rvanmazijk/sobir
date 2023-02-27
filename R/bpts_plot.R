@@ -23,39 +23,67 @@
 #' b = rnorm(100,0,1)
 #' bptsExample = extract_bpts(a,b)
 #' bpts_plot(bptsExample, "a", "b")
-bpts_plot <- function(bpts, xlab = "x", ylab = "y", export_name = "bpts plot.png", save_plot = FALSE, colour = TRUE, legend.position = "right"){
-
+bpts_plot <- function(bpts, xlab = "x", ylab = "y",
+                      export_name = "bpts plot.png",
+                      save_plot = FALSE, colour = TRUE,
+                      legend.position = "right"){
   legend <- x <- y <- type <- NULL
   
- bpts_baseplot <- ggplot(data = filter(bpts, !legend %in% c(0, 6)), aes(x, y)) +
-    
+  bpts_baseplot <- ggplot(
+      data = filter(bpts, !legend %in% c(0, 6)),
+      aes(x, y)
+    ) +
     geom_point(shape = 21, fill = "grey", alpha = 0.5) +
-    
-    geom_polygon(data = dplyr::filter(bpts, legend == 0), 
-                 aes(fill = type), alpha = 0.3, show.legend = F) +
-    geom_line(data = dplyr::filter(bpts, legend %in% 1:4), 
-              aes(col = type, linetype = type)) +
-    geom_point(data = dplyr::filter(bpts, legend %in% 1:4), 
-               aes(fill = type), shape = 21) +
-    
-    scale_linetype_manual(values = c(1, 2, 3, 4), name = "No-data boundaries") +
-   
-   labs(x = xlab, y = ylab) +
-
+    geom_polygon(
+      data = dplyr::filter(bpts, legend == 0), 
+      aes(fill = type),
+      alpha = 0.3, show.legend = FALSE
+    ) +
+    geom_line(
+      data = dplyr::filter(bpts, legend %in% 1:4),
+      aes(col = type, linetype = type)
+    ) +
+    geom_point(
+      data = dplyr::filter(bpts, legend %in% 1:4),
+      aes(fill = type),
+      shape = 21
+    ) +
+    scale_linetype_manual(
+      name   = "No-data boundaries",
+      values = c(1, 2, 3, 4)
+    ) +
+    labs(x = xlab, y = ylab) +
     theme_bw() +
-   theme(legend.position = legend.position)
- 
- if(colour == TRUE){
-   bpts_graph = bpts_baseplot +
-    scale_fill_brewer(type = "qual", name = "No-data boundaries", palette = "Set1", direction = -1) +
-    scale_color_brewer(type = "qual", name = "No-data boundaries", palette = "Set1", direction = -1) 
- } else {
-   bpts_graph = bpts_baseplot +
-    scale_fill_manual(name = "No-data boundaries", values = rep("darkgrey", times = 4)) +
-    scale_color_manual(name = "No-data boundaries", values = rep("black", times = 4))
- }
- 
- ifelse(save_plot == FALSE, return(bpts_graph), ggsave(export_name))
+    theme(legend.position = legend.position)
   
+  if (colour) {
+    bpts_graph = bpts_baseplot +
+      scale_fill_brewer(
+        type      = "qual",
+        name      = "No-data boundaries",
+        palette   = "Set1",
+        direction = -1
+      ) +
+      scale_color_brewer(
+        type      = "qual",
+        name      = "No-data boundaries",
+        palette   = "Set1",
+        direction = -1
+      )
+  } else {
+    bpts_graph = bpts_baseplot +
+      scale_fill_manual(
+        name   = "No-data boundaries",
+        values = rep("darkgrey", times = 4)
+      ) +
+      scale_color_manual(
+        name   = "No-data boundaries",
+        values = rep("black", times = 4)
+      )
+  }
+ 
+  ifelse(!save_plot,
+    return(bpts_graph),
+    ggsave(export_name)
+  )
 }
-

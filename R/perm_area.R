@@ -22,8 +22,8 @@
 #  Ver. 2 - Ruan & Nic edits
 #  relative area (x-axis) Ruan & Nic changes between lines 110 - 123 
 #  Added argument "fixed" <- lines 73 - 83
-perm_area <- function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixed = FALSE){
-  
+perm_area <- function(xdat, ydat, nsim,
+                      boundary = "topl", method = "auto", fixed = FALSE){
   obs <- cbind.data.frame(xdat, ydat)
   
   fix_ymax <- obs[obs$ydat == max(ydat), ]
@@ -43,14 +43,17 @@ perm_area <- function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixe
   fix_xmin <- unique(fix_xmin)
   
   
-  ID_free <- ( match(obs$xdat, fix_xmax$xdat) & match(obs$ydat, fix_xmax$ydat) ) | 
+  ID_free <-
+    ( match(obs$xdat, fix_xmax$xdat) & match(obs$ydat, fix_xmax$ydat) ) | 
     ( match(obs$xdat, fix_ymax$xdat) & match(obs$ydat, fix_ymax$ydat) ) |
     ( match(obs$xdat, fix_xmin$xdat) & match(obs$ydat, fix_xmin$ydat) ) |
     ( match(obs$xdat, fix_ymin$xdat) & match(obs$ydat, fix_ymin$ydat) ) 
   
-  ID_free[is.na(ID_free)] = F
+  ID_free[is.na(ID_free)] <- FALSE
   
-  free_dat <- dplyr::filter(obs, !ID_free)
+  free_dat <- dplyr::filter(obs,
+    !ID_free
+  )
   
   
   x_dat <- free_dat$xdat
@@ -65,22 +68,34 @@ perm_area <- function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixe
   
   for(j in 1:nsim){
     
-    if (fixed == FALSE) {
+    if (!fixed) {
       # Nic & Ruan changes
-      sim_x <- sample(x_dat, size = length(x_dat), replace = F)
-      sim_y <- sample(y_dat, size = length(y_dat), replace = F)
-    } else if (fixed == TRUE) {
+      sim_x <- sample(x_dat, size = length(x_dat), replace = FALSE)
+      sim_y <- sample(y_dat, size = length(y_dat), replace = FALSE)
+    } else if (fixed) {
       # Create simulation - RdW version
-      sim_x <- sample(x_dat, size = length(x_dat), replace = F)
-      sim_y <- sample(y_dat, size = length(y_dat), replace = F)
-      sim_x <- c(sim_x, fix_xmax[ , 1], fix_ymax[ , 1], fix_xmin[ , 1], fix_ymin[ , 1])
-      sim_y <- c(sim_y, fix_xmax[ , 2], fix_ymax[ , 2], fix_xmin[ , 2], fix_ymin[ , 2])
+      sim_x <- sample(x_dat, size = length(x_dat), replace = FALSE)
+      sim_y <- sample(y_dat, size = length(y_dat), replace = FALSE)
+      sim_x <- c(
+        sim_x,
+        fix_xmax[, 1],
+        fix_ymax[, 1],
+        fix_xmin[, 1],
+        fix_ymin[, 1]
+      )
+      sim_y <- c(
+        sim_y,
+        fix_xmax[, 2],
+        fix_ymax[, 2],
+        fix_xmin[, 2],
+        fix_ymin[, 2]
+      )
     } else {
       stop("fixed argument not logical, requires TRUE or FALSE")
     }
     
     # Calculate simulated area
-    sim_area <-  suppressWarnings(calc_area(sim_x, sim_y))
+    sim_area <- suppressWarnings(calc_area(sim_x, sim_y))
     
     for(i in 1:4){
       result[j , i] <- sim_area[[i]]
@@ -97,7 +112,9 @@ perm_area <- function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixe
   obs_area <- suppressWarnings(calc_area(xdat, ydat))
   
   # Create tidy dataframe for the observed areas
-  obs_tidy <- gather(as.data.frame(obs_area), "polygon", "val")
+  obs_tidy <- gather(as.data.frame(obs_area),
+    "polygon", "val"
+  )
   obs_tidy$source <- "obs"
   
   # Collate the df
@@ -106,58 +123,119 @@ perm_area <- function(xdat, ydat, nsim, boundary = "topl", method = "auto", fixe
   # dat_perm$rescale = scales::rescale(dat_perm$val)
   
   ## Nic & Ruan Edit ###
-  dat_perm <- dat_perm[order(dat_perm$polygon),] #shantelle
+  dat_perm <- dat_perm[order(dat_perm$polygon), ] #shantelle
   dat_perm$rescale_botl <- ifelse(dat_perm$polygon == "botl",
-                                  scales::rescale(dat_perm$val[which(dat_perm$polygon == "botl")]), 0)
+    scales::rescale(dat_perm$val[which(dat_perm$polygon == "botl")]),
+    0
+  )
   dat_perm$rescale_botr <- ifelse(dat_perm$polygon == "botr",
-                                  scales::rescale(dat_perm$val[which(dat_perm$polygon == "botr")]), 0)
+    scales::rescale(dat_perm$val[which(dat_perm$polygon == "botr")]),
+    0
+  )
   dat_perm$rescale_topl <- ifelse(dat_perm$polygon == "topl",
-                                  scales::rescale(dat_perm$val[which(dat_perm$polygon == "topl")]), 0)
+    scales::rescale(dat_perm$val[which(dat_perm$polygon == "topl")]),
+    0
+  )
   dat_perm$rescale_topr <- ifelse(dat_perm$polygon == "topr",
-                                  scales::rescale(dat_perm$val[which(dat_perm$polygon == "topr")]), 0)
+    scales::rescale(dat_perm$val[which(dat_perm$polygon == "topr")]),
+    0
+  )
   dat_perm <- dat_perm %>%
     # rowwise() %>% #shantelle (see dplyr version update notes)
-    group_by( row_number() ) %>% #shantelle
-    mutate(rescale = sum(rescale_botl,rescale_botr,rescale_topl,rescale_topr)) %>%
-    mutate(rescale_botl = NULL,rescale_botr = NULL,rescale_topl = NULL,rescale_topr = NULL)
+    group_by(row_number()) %>% #shantelle
+    mutate(rescale = sum(
+      rescale_botl,
+      rescale_botr,
+      rescale_topl,
+      rescale_topr
+    )) %>%
+    mutate(
+      rescale_botl = NULL,
+      rescale_botr = NULL,
+      rescale_topl = NULL,
+      rescale_topr = NULL
+    )
   ####
   
   # Test the significance of each no-data zone
   
   if(boundary == "all"){
     
-    botl_pos <- dat_perm[dat_perm$polygon == "botl",2] >= dat_perm[dat_perm$source == "obs",2][[1]]
-    p_botl <- statmod::permp(x = sum(botl_pos), nperm = nsim, n1 = length(xdat), n2 = length(ydat), method = method)
+    botl_pos <-
+      dat_perm[dat_perm$polygon == "botl", 2] >=
+      dat_perm[dat_perm$source == "obs", 2][[1]]
+    p_botl <- statmod::permp(
+      x = sum(botl_pos),
+      nperm = nsim,
+      n1 = length(xdat),
+      n2 = length(ydat),
+      method = method
+    )
     
-    botr_pos <- dat_perm[dat_perm$polygon == "botr",2] >= dat_perm[dat_perm$source == "obs",2][[2]]
-    p_botr <- statmod::permp(x = sum(botr_pos), nperm = nsim, n1 = length(xdat), n2 = length(ydat), method = method)
+    botr_pos <-
+      dat_perm[dat_perm$polygon == "botr", 2] >=
+      dat_perm[dat_perm$source == "obs", 2][[2]]
+    p_botr <- statmod::permp(
+      x = sum(botr_pos),
+      nperm = nsim,
+      n1 = length(xdat),
+      n2 = length(ydat),
+      method = method
+    )
     
-    topl_pos <- dat_perm[dat_perm$polygon == "topl",2] >= dat_perm[dat_perm$source == "obs",2][[3]]
-    p_topl <- statmod::permp(x = sum(topl_pos), nperm = nsim, n1 = length(xdat), n2 = length(ydat), method = method)
+    topl_pos <-
+      dat_perm[dat_perm$polygon == "topl", 2] >=
+      dat_perm[dat_perm$source == "obs", 2][[3]]
+    p_topl <- statmod::permp(
+      x = sum(topl_pos),
+      nperm = nsim,
+      n1 = length(xdat),
+      n2 = length(ydat),
+      method = method
+    )
     
-    topr_pos <- dat_perm[dat_perm$polygon == "topr",2] >= dat_perm[dat_perm$source == "obs",2][[4]]
-    p_topr <- statmod::permp(x = sum(topr_pos), nperm = nsim, n1 = length(xdat), n2 = length(ydat), method = method)
+    topr_pos <-
+      dat_perm[dat_perm$polygon == "topr", 2] >= 
+      dat_perm[dat_perm$source == "obs", 2][[4]]
+    p_topr <- statmod::permp(
+      x = sum(topr_pos),
+      nperm = nsim,
+      n1 = length(xdat),
+      n2 = length(ydat),
+      method = method
+    )
     
     # Final result to return
-    list_result <- list(n = length(xdat),
-                       nsim = nsim,
-                       p_topr = p_topr,
-                       p_topl = p_topl,
-                       p_botr = p_botr,
-                       p_botl = p_botl,
-                       data = dat_perm)
+    list_result <- list(
+      n      = length(xdat),
+      nsim   = nsim,
+      p_topr = p_topr,
+      p_topl = p_topl,
+      p_botr = p_botr,
+      p_botl = p_botl,
+      data   = dat_perm
+    )
     
   } else {
-    dat_bound <- dat_perm[dat_perm$polygon == boundary,]
-    bound_pos <- dat_bound[,2] >= dat_bound[dat_bound$source == "obs",2][[1]]
-    p_bound <- statmod::permp(x = sum(bound_pos), nperm = nsim, n1 = length(xdat), n2 = length(ydat), method = method)
+    dat_bound <- dat_perm[dat_perm$polygon == boundary, ]
+    bound_pos <-
+      dat_bound[, 2] >=
+      dat_bound[dat_bound$source == "obs", 2][[1]]
+    p_bound <- statmod::permp(
+      x = sum(bound_pos),
+      nperm = nsim,
+      n1 = length(xdat),
+      n2 = length(ydat),
+      method = method
+    )
     
     # Final result to return
-    list_result <- list(n = length(xdat),
-                       nsim = nsim,
-                       p = p_bound,
-                       data = dat_bound)
-    
+    list_result <- list(
+      n    = length(xdat),
+      nsim = nsim,
+      p    = p_bound,
+      data = dat_bound
+    )
   }
   
   return(list_result)
