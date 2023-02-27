@@ -26,9 +26,8 @@ extract_bpts <- function(xdat, ydat) {
   voi_dat <- na.omit(voi_dat)
   voi_n <- nrow(voi_dat)
 
-  ############################### Define Top-Right Boundary ##########################################
+  # Define Top-Right Boundary --------------------------------------------------
 
-  ### topright
   voi_ordered_y <- voi_dat[order(-voi_dat$y),]
   binned_points <- {}
   topr <- {}
@@ -39,14 +38,12 @@ extract_bpts <- function(xdat, ydat) {
     binned_points[[i]] <- binned_points[[i-1]][which(binned_points[[i-1]][,1] > binned_points[[i-1]][1,1]),]
     ##binned_points##
     topr[[i]] <- binned_points[[i]][1,]
-    # topr
   }
   topr <- do.call("rbind.data.frame", topr)
   topr <- na.omit(topr)
   
-  ############################### Define Top-Left Boundary ##########################################
+  # Define Top-Left Boundary ---------------------------------------------------
 
-  ### topleft
   topl <- {}
   binned_points[[1]] <- voi_ordered_y 
   topl[[1]] <- binned_points[[1]][1,]
@@ -54,13 +51,12 @@ extract_bpts <- function(xdat, ydat) {
     binned_points[[i]] <- binned_points[[i-1]][which(binned_points[[i-1]][,1] < binned_points[[i-1]][1,1]),]
     ##binned_points##
     topl[[i]] <- binned_points[[i]][1,]
-    # topl
   }
   topl <- do.call("rbind.data.frame", topl)
   topl <- na.omit(topl)
   
-  ############################### Define Bottom-Right Boundary ##########################################
-  ### bottomright
+  # Define Bottom-Right Boundary -----------------------------------------------
+
   voi_ordered_x <- voi_dat[order(-voi_dat$x),]
   botr <- {}
   binned_points[[1]] <- voi_ordered_x
@@ -69,7 +65,6 @@ extract_bpts <- function(xdat, ydat) {
     binned_points[[i]] <- binned_points[[i-1]][which(binned_points[[i-1]][,2] < binned_points[[i-1]][1,2]),]
     ##binned_points##
     botr[[i]] <- binned_points[[i]][1,]
-    # botr
   }
 
   botr <- do.call("rbind.data.frame", botr)
@@ -77,8 +72,8 @@ extract_bpts <- function(xdat, ydat) {
   botr <- botr[order(botr$y),]
   botr <- botr[order(botr$x),]
   
-  ############################### Define Bottom-Left Boundary ##########################################
-  ### bottomleft
+  # Define Bottom-Left Boundary ------------------------------------------------
+  
   voi_ordered_xmin <- dplyr::arrange(voi_dat, x, -y)
   botl <- {}
   binned_points[[1]] <- voi_ordered_xmin
@@ -92,7 +87,6 @@ extract_bpts <- function(xdat, ydat) {
     
     ##binned_points##
     botl[[i]] <- binned_points[[i]][1,]
-    # botl
   }
   
   botl <- do.call("rbind.data.frame", botl)
@@ -100,9 +94,8 @@ extract_bpts <- function(xdat, ydat) {
   
   # last_extreme = binned_points[[1]][1,]
   # binned_points[[1]][-1,]
-
   
-  ############################### Process Boundaries ##########################################
+  # Process Boundaries ---------------------------------------------------------
 
   # Label the boundary points
   botl$type <- "botl"
