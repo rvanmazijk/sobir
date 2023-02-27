@@ -14,9 +14,9 @@
 #' @export
 #'
 #' @examples
-#' a = rnorm(100,0,1)
-#' b = rnorm(100,0,1)
-#' extract_bpts(a,b)
+#' a = rnorm(100, 0, 1)
+#' b = rnorm(100, 0, 1)
+#' extract_bpts(a, b)
 extract_bpts <- function(xdat, ydat) {
   x <- xdat
   y <- ydat

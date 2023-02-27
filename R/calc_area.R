@@ -17,11 +17,10 @@
 #' @export
 #'
 #' @examples
-#' a = rnorm(100,0,1)
-#' b = rnorm(100,0,1)
-#' calc_area(a,b)
+#' a = rnorm(100, 0, 1)
+#' b = rnorm(100, 0, 1)
+#' calc_area(a, b)
 calc_area <- function(xdat, ydat){
-
   legend <- x <- y <- type <- label <- NULL
   
   # Extract boundary points

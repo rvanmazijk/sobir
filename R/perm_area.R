@@ -16,9 +16,9 @@
 #' @export
 #'
 #' @examples
-# xdat = rnorm(100,0,1)
-# ydat = rnorm(100,0,1)
-# nsim = 100
+#' xdat = rnorm(100, 0, 1)
+#' ydat = rnorm(100, 0, 1)
+#' nsim = 100
 #  Ver. 2 - Ruan & Nic edits
 #  relative area (x-axis) Ruan & Nic changes between lines 110 - 123 
 #  Added argument "fixed" <- lines 73 - 83
@@ -54,7 +54,6 @@ perm_area <- function(xdat, ydat, nsim,
   free_dat <- dplyr::filter(obs,
     !ID_free
   )
-  
   
   x_dat <- free_dat$xdat
   y_dat <- free_dat$ydat
