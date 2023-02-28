@@ -158,7 +158,7 @@ perm_area <- function(xdat, ydat, nsim,
   
   # Test the significance of each no-data zone
   
-  if(boundary == "all"){
+  if (boundary == "all") {
     
     botl_pos <-
       dat_perm[dat_perm$polygon == "botl", 2] >=

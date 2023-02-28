@@ -92,7 +92,7 @@ extract_bpts <- function(xdat, ydat) {
   botl <- {}
   binned_points[[1]] <- voi_ordered_xmin
   botl[[1]] <- binned_points[[1]][1, ]
-  for(i in 2:100){
+  for (i in 2:100) {
     
     # ifelse(binned_points[[i-1]][1,2] == binned_points[[i-1]][2,2],
     #        binned_points[[i]] <- binned_points[[i-1]][-1,],
