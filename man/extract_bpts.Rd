@@ -19,7 +19,7 @@ extract_bpts identifies the boundary points to a scatterplot and labels the
 relevant data for further analysis in the sobir package.
 }
 \examples{
-a = rnorm(100,0,1)
-b = rnorm(100,0,1)
-extract_bpts(a,b)
+a = rnorm(100, 0, 1)
+b = rnorm(100, 0, 1)
+extract_bpts(a, b)
 }

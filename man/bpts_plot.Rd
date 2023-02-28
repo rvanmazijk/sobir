@@ -37,8 +37,8 @@ bpts_plot creates a ggplot2 scatterplot of your bpts object with the boundary
 lines and no-data zones identified.
 }
 \examples{
-a = rnorm(100,0,1)
-b = rnorm(100,0,1)
-bptsExample = extract_bpts(a,b)
+a = rnorm(100, 0, 1)
+b = rnorm(100, 0, 1)
+bptsExample = extract_bpts(a, b)
 bpts_plot(bptsExample, "a", "b")
 }

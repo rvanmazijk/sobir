@@ -25,3 +25,8 @@ a perm table that can be plotted directly using perm_plot()
 \description{
 perm_area calculates the no-data zone areas for each permutation of the data simulated nsim times.
 }
+\examples{
+xdat = rnorm(100, 0, 1)
+ydat = rnorm(100, 0, 1)
+nsim = 100
+}
