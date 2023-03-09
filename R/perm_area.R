@@ -97,7 +97,7 @@ perm_area <- function(xdat, ydat, nsim,
     sim_area <- suppressWarnings(calc_area(sim_x, sim_y))
     
     for(i in 1:4){
-      result[j , i] <- sim_area[[i]]
+      result[j, i] <- sim_area[[i]]
     }
   }
   
