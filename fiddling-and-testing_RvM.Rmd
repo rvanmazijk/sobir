@@ -1,0 +1,56 @@
+---
+title: "$Z$-statistics and $p$-values for boundary line analysis"
+author: "Ruan van Mazijk"
+date: "`r format(Sys.Date(), '%e %B %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(sobir)
+library(tidyverse)
+```
+
+```{r simulate-data, include=FALSE}
+set.seed(123)
+xdat <- rnorm(100, 0, 1)
+ydat <- rnorm(100, 0, 1)
+```
+
+Let us consider some simulated data, where both $X$ and $Y$ follow a standard normal distribution --- i.e. $\sim N(\mu = 0, \sigma = 1)$. Simulating 100 points, the 'boundaries' in this data set are as follows:
+
+```{r plot-data, echo=FALSE, fig.width=3.5, fig.height=4}
+plot(
+  xdat, ydat,
+  xlab = bquote(italic(X)),
+  ylab = bquote(italic(Y))
+)
+```
+```{r}
+bpts <- extract_bpts(xdat, ydat)
+bpts_plot(bpts) +
+  coord_equal()
+```
+
+```{r}
+perm_area_result <- perm_area(xdat, ydat, nsim = 10)
+perm_area_result
+```
+
+What I think a $Z$-statistic would be:
+
+```{r}
+#obs_area <- perm_area_result$data %>%
+#  filter(source == "obs") %>%
+#  pull(val)
+#perm_areas <- perm_area_result$data %>%
+#  filter(source == "sim") %>%
+#  pull(val)
+#
+#perm_area_result$data %>%
+#  ungroup() %>%
+#  arrange(val) %>%
+#  mutate(rank = rank(val)) %>%
+#  mutate(extremity = ifelse(rank <= ceiling(n()/2), n() - rank, rank)) %>%
+#  mutate(p_twosided = (n() - extremity + 1)/n()) %>%
+#  data.frame()
+```
