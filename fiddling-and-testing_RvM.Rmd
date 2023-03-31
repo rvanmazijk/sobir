@@ -85,7 +85,10 @@ perm_area_result$data %>%
   ungroup() %>%
   arrange(val) %>%
   mutate(rank = rank(val)) %>%
-  mutate(extremity = ifelse(rank <= ceiling(n()/2), n() - rank, rank)) %>%
+  mutate(extremity = ifelse(rank <= ceiling(n()/2),
+    n() - rank,
+    rank
+  )) %>%
   mutate(p_twosided = (n() - extremity + 1)/n()) %>%
   data.frame()
 ```
