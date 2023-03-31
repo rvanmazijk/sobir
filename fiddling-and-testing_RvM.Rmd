@@ -58,6 +58,7 @@ z <- (obs_area - mean(perm_areas))/sd(perm_areas)
 z
 pnorm(z, lower.tail = FALSE)
 ```
+
 Second, let's look at the rank-method (which is non-parametric, unlike the first method which assumes the permuted areas follow a normal distribution (I'm not saying they don't, I'm just saying I'm not 100% sure they always will)):
 
 ```{r calculate-p-from-ranks}
@@ -66,11 +67,13 @@ ranks <- rank(c(obs_area, perm_areas))
 # Hence:
 (length(ranks) - ranks[[1]] + 1)/length(ranks)
 ```
+
 In mathematical notation, if the observed area $a_\mathrm{obs}$ ranks 11th (i.e. greatest) out of the set of 11 areas $a$ ($= \{ a_\mathrm{obs}, \{ a_\mathrm{perm} \} \}$), we *want* the "$p$-value" here, conceptually, to equal $\frac{1}{11}$ (= 0.091). So,
 
 $$
   p = \frac{1}{11} = \frac{11 - 11 + 1}{11} \approx 0.091
 $$
+
 More generally, for $n_\mathrm{perm}$ permuted areas, the "$p$-value" for $a_\mathrm{obs}$ is based on its rank $r_\mathrm{obs}$ among the permuted areas:
 
 $$
