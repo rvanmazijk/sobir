@@ -34,7 +34,7 @@ bpts_plot(bpts) +
 Now let's run the permutations. For the sake of time, I'll permute the data (without replacement) 10 times:
 
 ```{r permute-data}
-perm_area_result <- perm_area(xdat, ydat, nsim = 10)
+perm_area_result <- perm_area(xdat, ydat, nsim = 50)
 perm_area_result
 ```
 
@@ -91,4 +91,15 @@ perm_area_result$data %>%
   )) %>%
   mutate(p_twosided = (n() - extremity + 1)/n()) %>%
   data.frame()
+```
+
+But I digress.
+
+```{r plot-hist}
+area <- perm_area_result$data %>%
+  split(.$source) %>%
+  map(pull, val)
+
+hist(area$sim, breaks = 5)
+abline(v = area$obs)
 ```
