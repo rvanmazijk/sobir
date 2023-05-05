@@ -1,0 +1,5 @@
+expr,time,nsim
+"perm_area_result_100 <- perm_area(xdat, ydat, nsim = 100)",9795539723,100
+"perm_area_result_10 <- perm_area(xdat, ydat, nsim = 10)",1060178492,10
+"perm_area_result_1000 <- perm_area(xdat, ydat, nsim = 1000)",100403026956,1000
+"perm_area_result_10000 <- perm_area(xdat, ydat, nsim = 10000)",1031223860885,10000
