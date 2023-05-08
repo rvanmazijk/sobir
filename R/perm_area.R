@@ -156,86 +156,12 @@ perm_area <- function(xdat, ydat, nsim,
     )
   ####
   
-  # Test the significance of each no-data zone
-  
-  if (boundary == "all") {
-    
-    botl_pos <-
-      dat_perm[dat_perm$polygon == "botl", 2] >=
-      dat_perm[dat_perm$source == "obs", 2][[1]]
-    p_botl <- statmod::permp(
-      x = sum(botl_pos),
-      nperm = nsim,
-      n1 = length(xdat),
-      n2 = length(ydat),
-      method = method
-    )
-    
-    botr_pos <-
-      dat_perm[dat_perm$polygon == "botr", 2] >=
-      dat_perm[dat_perm$source == "obs", 2][[2]]
-    p_botr <- statmod::permp(
-      x = sum(botr_pos),
-      nperm = nsim,
-      n1 = length(xdat),
-      n2 = length(ydat),
-      method = method
-    )
-    
-    topl_pos <-
-      dat_perm[dat_perm$polygon == "topl", 2] >=
-      dat_perm[dat_perm$source == "obs", 2][[3]]
-    p_topl <- statmod::permp(
-      x = sum(topl_pos),
-      nperm = nsim,
-      n1 = length(xdat),
-      n2 = length(ydat),
-      method = method
-    )
-    
-    topr_pos <-
-      dat_perm[dat_perm$polygon == "topr", 2] >= 
-      dat_perm[dat_perm$source == "obs", 2][[4]]
-    p_topr <- statmod::permp(
-      x = sum(topr_pos),
-      nperm = nsim,
-      n1 = length(xdat),
-      n2 = length(ydat),
-      method = method
-    )
-    
-    # Final result to return
-    list_result <- list(
-      n      = length(xdat),
-      nsim   = nsim,
-      p_topr = p_topr,
-      p_topl = p_topl,
-      p_botr = p_botr,
-      p_botl = p_botl,
-      data   = dat_perm
-    )
-    
-  } else {
-    dat_bound <- dat_perm[dat_perm$polygon == boundary, ]
-    bound_pos <-
-      dat_bound[, 2] >=
-      dat_bound[dat_bound$source == "obs", 2][[1]]
-    p_bound <- statmod::permp(
-      x = sum(bound_pos),
-      nperm = nsim,
-      n1 = length(xdat),
-      n2 = length(ydat),
-      method = method
-    )
-    
-    # Final result to return
-    list_result <- list(
-      n    = length(xdat),
-      nsim = nsim,
-      p    = p_bound,
-      data = dat_bound
-    )
-  }
+  # Final result to return
+  list_result <- list(
+    n    = length(xdat),
+    nsim = nsim,
+    data = dat_perm
+  )
   
   list_result
 }
