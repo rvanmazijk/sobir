@@ -2,6 +2,7 @@
 title: "$Z$-statistics and $p$-values for boundary line analysis in `sobir`"
 author: "Ruan van Mazijk"
 date: "`r format(Sys.Date(), '%e %B %Y')`"
+output: md_document
 ---
 
 ```{r setup, include=FALSE}
