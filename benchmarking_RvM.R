@@ -26,9 +26,14 @@ perm_area_benchmarks_tidy <- perm_area_benchmarks %>%
 write_csv(perm_area_benchmarks_tidy, "perm_area_benchmarks_tidy.csv")
 
 ggplot(perm_area_benchmarks_tidy) + 
-  aes(nsim, time) +
-  geom_point() +
+  aes(nsim, time/6e10) +
+  geom_boxplot() +
   scale_x_log10(name = "No. simulations") +
-  scale_y_log10(name = "Time (seconds)") +
+  scale_y_log10(name = "Time (minutes)") +
   theme_classic()
-  
+
+ggplot(perm_area_benchmarks_tidy) + 
+  aes(time/6e10) +
+  geom_histogram(bins = 5) +
+  facet_wrap(~nsim, scales = "free") +
+  theme_classic()
