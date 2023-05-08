@@ -1,3 +1,4 @@
+library(tidyverse)
 library(sobir)
 library(microbenchmark)
 
@@ -5,7 +6,7 @@ set.seed(1234)
 xdat <- rnorm(100, 0, 1)
 ydat <- rnorm(100, 0, 1)
 
-perm_area_benchmarks <- microbenchmark(times = 1,
+perm_area_benchmarks <- microbenchmark(times = 10,
   perm_area_result_10    <- perm_area(xdat, ydat, nsim = 10),
   perm_area_result_100   <- perm_area(xdat, ydat, nsim = 100),
   perm_area_result_1000  <- perm_area(xdat, ydat, nsim = 1000),
