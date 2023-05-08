@@ -105,6 +105,9 @@ area <- perm_area_result$data %>%
   split(.$source) %>%
   map(pull, val)
 
-hist(area$sim, breaks = 5)
-abline(v = area$obs)
+boxplot(area$sim)
+abline(h = area$obs, lty = "dashed")
+
+hist(area$sim, breaks = 50, sub = "(50 bins)")
+abline(v = area$obs, lty = "dashed")
 ```
