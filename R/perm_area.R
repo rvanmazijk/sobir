@@ -65,42 +65,28 @@ perm_area <- function(xdat, ydat, nsim,
   # Create empty matrix with a column for each polygon area and a row for each iteration
   result <- matrix(NA, nrow = nsim, ncol = 4)
   
-  for(j in 1:nsim){
-    
-    if (!fixed) {
-      # Nic & Ruan changes
-      sim_x <- sample(x_dat, size = length(x_dat), replace = FALSE)
-      sim_y <- sample(y_dat, size = length(y_dat), replace = FALSE)
-    } else if (fixed) {
-      # Create simulation - RdW version
-      sim_x <- sample(x_dat, size = length(x_dat), replace = FALSE)
-      sim_y <- sample(y_dat, size = length(y_dat), replace = FALSE)
-      sim_x <- c(
-        sim_x,
-        fix_xmax[, 1],
-        fix_ymax[, 1],
-        fix_xmin[, 1],
-        fix_ymin[, 1]
-      )
-      sim_y <- c(
-        sim_y,
-        fix_xmax[, 2],
-        fix_ymax[, 2],
-        fix_xmin[, 2],
-        fix_ymin[, 2]
-      )
-    } else {
-      stop("fixed argument not logical, requires TRUE or FALSE")
-    }
-    
-    # Calculate simulated area
-    sim_area <- suppressWarnings(calc_area(sim_x, sim_y))
-    
-    for(i in 1:4){
-      result[j, i] <- sim_area[[i]]
-    }
-  }
+  # [GPT-4] --------------------------------------------------------------------
+  # Generate all the permutations outside the loop
+  sim_x_all <- replicate(nsim, sample(x_dat, size = length(x_dat), replace = FALSE))
+  sim_y_all <- replicate(nsim, sample(y_dat, size = length(y_dat), replace = FALSE))
   
+  # Use sapply to loop through the permutations and calculate areas
+  sim_areas <- sapply(1:nsim, function(j) {
+    sim_x <- sim_x_all[, j]
+    sim_y <- sim_y_all[, j]
+    
+    if (fixed) {
+      sim_x <- c(sim_x, fix_xmax[, 1], fix_ymax[, 1], fix_xmin[, 1], fix_ymin[, 1])
+      sim_y <- c(sim_y, fix_xmax[, 2], fix_ymax[, 2], fix_xmin[, 2], fix_ymin[, 2])
+    }
+    
+    calc_area(sim_x, sim_y)
+  })
+  
+  # Transpose the matrix
+  result <- t(sim_areas)
+  # [/GPT-4] -------------------------------------------------------------------
+
   # Create tidy dataframe for the simulated areas
   result_df <- as.data.frame(result)
   colnames(result_df) <- c("botl", "botr", "topl", "topr")
