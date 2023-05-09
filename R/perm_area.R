@@ -110,19 +110,19 @@ perm_area <- function(xdat, ydat, nsim,
   ## Nic & Ruan Edit ###
   dat_perm <- dat_perm[order(dat_perm$polygon), ] #shantelle
   dat_perm$rescale_botl <- ifelse(dat_perm$polygon == "botl",
-    scales::rescale(dat_perm$val[which(dat_perm$polygon == "botl")]),
+    scales::rescale(unlist(dat_perm$val)[which(dat_perm$polygon == "botl")]),
     0
   )
   dat_perm$rescale_botr <- ifelse(dat_perm$polygon == "botr",
-    scales::rescale(dat_perm$val[which(dat_perm$polygon == "botr")]),
+    scales::rescale(unlist(dat_perm$val)[which(dat_perm$polygon == "botr")]),
     0
   )
   dat_perm$rescale_topl <- ifelse(dat_perm$polygon == "topl",
-    scales::rescale(dat_perm$val[which(dat_perm$polygon == "topl")]),
+    scales::rescale(unlist(dat_perm$val)[which(dat_perm$polygon == "topl")]),
     0
   )
   dat_perm$rescale_topr <- ifelse(dat_perm$polygon == "topr",
-    scales::rescale(dat_perm$val[which(dat_perm$polygon == "topr")]),
+    scales::rescale(unlist(dat_perm$val)[which(dat_perm$polygon == "topr")]),
     0
   )
   dat_perm <- dat_perm %>%
