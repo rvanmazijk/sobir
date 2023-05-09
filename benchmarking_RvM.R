@@ -27,7 +27,7 @@ write_csv(perm_area_benchmarks_tidy, "perm_area_benchmarks_tidy.csv")
 
 ggplot(perm_area_benchmarks_tidy) + 
   aes(nsim, time/6e10) +
-  geom_boxplot() +
+  geom_point() +
   scale_x_log10(name = "No. simulations") +
   scale_y_log10(name = "Time (minutes)") +
   theme_classic()
